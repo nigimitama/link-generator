@@ -18,6 +18,7 @@ function init(url, title) {
 }
 
 
+// popup handler---------------------------------------------------
 function updatePopup() {
   let currentUrl = document.getElementById("currentUrl");
   let currentTitle = document.getElementById("currentTitle");
@@ -38,6 +39,7 @@ function resetPopup() {
     linksDiv.removeChild(child);
   }
 }
+// ---------------------------------------------------------------
 
 
 function showCurrent(url, title) {
@@ -137,7 +139,4 @@ function copyToClipboard(name) {
   let target = document.getElementById(name);
   target.select();
   document.execCommand("copy");
-  showMessage("copied!");
 }
-
-
