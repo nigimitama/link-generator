@@ -40,7 +40,10 @@ function renderSettingsDiv() {
     var formats = storage.formats;
     for (let format of formats) {
       let formDiv = createFormDiv();
-      let nameInput = formDiv.querySelector('.lg-name');
+      let nameElements = formDiv.querySelectorAll('.lg-name');
+      let nameHeader = nameElements[0];
+      nameHeader.innerText = format['name'];
+      let nameInput = nameElements[1];
       nameInput.value = format['name'];
       const isTextFormat = (format['format'] != null);
       if (isTextFormat) {
