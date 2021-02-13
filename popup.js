@@ -2,6 +2,7 @@
 /*
 TODO:
 - storage.syncに設定したformatsを保存できる
+- rendered HTMLもformatsに入れる
 */ 
 
 // get current tab when this extension is clicked
@@ -76,53 +77,34 @@ function generateLinkHtml(linksDiv, url, title) {
 }
 
 
-function getFormatSetting() {
-  const formats = [
-    { name: 'Markdown', format: '[%title%](%url%)' }
-  ];
-  return formats;
-}
-
-
 // show link as text
 function generateLinkTexts(linksDiv, url, title) {
-  const formats = getFormatSetting();
-  const links = formatLinkTexts(formats, url, title);
-  var name, link, header, codeBlock, linkDiv, button;
-  for (let i = 0; i < formats.length; i++) {
-    name = formats[i]['name'];
-    link = links[i];
-    // create new div
-    linkDiv = createContentDiv();
-    // add header
-    header = linkDiv.querySelector('.lg-header');
-    header.innerText = name;
-    // add link text
-    linkText = linkDiv.querySelector('.lg-link-text');
-    linkText.value = link;
-    linkText.id = name;
-    // add copy button
-    button = linkDiv.querySelector('.lg-copy-button');
-    button.addEventListener("click", function(){ copyToClipboard(name) });
-    // NOTE: CSPの関係上onclickは許可されないが、addEventListenerは許可される
+  chrome.storage.sync.get(['formats'], (storage) => {
+    var formats = storage.formats;
+    for (let format of formats) {
+      let name = format['name'];
+      let link = formatLinkText(format['format'], url, title);
+      // create new div
+      let linkDiv = createContentDiv();
+      // add header
+      let header = linkDiv.querySelector('.lg-header');
+      header.innerText = name;
+      // add link text
+      let linkText = linkDiv.querySelector('.lg-link-text');
+      linkText.value = link;
+      linkText.id = name;
+      // add copy button
+      let button = linkDiv.querySelector('.lg-copy-button');
+      button.addEventListener("click", function(){ copyToClipboard(name) });
+      // NOTE: CSPの関係上onclickは許可されないが、addEventListenerは許可される
 
-    linksDiv.appendChild(linkDiv);
-  }
-}
-
-function formatLinkTexts(formats, url, title) {
-  var link;
-  var links = [];
-  for (let format of formats) {
-    link = formatLinkText(format, url, title);
-    links.push(link);
-  }
-  return links;
+      linksDiv.appendChild(linkDiv);
+    }
+  });
 }
 
 function formatLinkText(format, url, title) {
-  let template = format['format'];
-  const link = template.replace('%title%', title).replace('%url%', url);
+  const link = format.replace('%title%', title).replace('%url%', url);
   return link;
 }
 

@@ -1,15 +1,19 @@
 {
-    "name": "Link Generator",
-    "description": "Generate links of a current tab.",
-    "version": "1.0",
-    "manifest_version": 3,
-    "permissions": [
-      "storage",
-      "activeTab",
-      "scripting",
-      "clipboardWrite"
-    ],
-    "action": {
-      "default_popup": "popup.html"
-    }
+  "name": "Link Generator",
+  "description": "Generate links of a current tab.",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "clipboardWrite"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "options_page": "options.html"
 }
