@@ -14,22 +14,32 @@
     </header>
     <main class="p-3">
       <span class="h4">Settings</span>
-      <div id="settingsDiv"></div>
-      <button type="submit" class="btn btn-primary btn-sm" id="updateButton">Update Settings</button>
+      <div class="my-2" id="settingsDiv"></div>
+      <button class="btn btn-secondary btn-sm" id="addButton">Add</button>
+      <button type="submit" class="btn btn-primary btn-sm" id="saveButton">Save Settings</button>
     </main>
     <!-- <footer class="bg-light p-3 border-top text-center">
       <a href='https://github.com/nigimitama' target='_blank'>© mitama</a>
     </footer> -->
 
     <div id="formTemplate" class="border rounded p-2 my-1" hidden>
-      <div class="input-group input-group-sm my-1 lg-name">
-        <span class="input-group-text">name</span>
-        <input type="text" class="form-control">
-      </div>
-      <div class="input-group input-group-sm my-1">
-        <span class="input-group-text">format</span>
-        <input type="text" class="form-control lg-format" hidden>
-        <textarea class="form-control lg-format" hidden></textarea>
+      <div class="container mx-0 px-0">
+        <div class="row">
+          <div class="col border-end" style="width: 95%">
+            <div class="input-group input-group-sm my-1 lg-name">
+              <span class="input-group-text">name</span>
+              <input type="text" class="form-control">
+            </div>
+            <div class="input-group input-group-sm my-1">
+              <span class="input-group-text">format</span>
+              <input type="text" class="form-control lg-format" hidden>
+              <textarea class="form-control lg-format" hidden></textarea>
+            </div>
+          </div>
+          <div class="col-1 align-middle">
+            <button type="button" class="btn btn-sm btn-danger lg-delete-button">Delete</button>
+          </div>
+        </div>
       </div>
     </div>
     <script src="options.js"></script>

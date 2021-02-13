@@ -1,15 +1,30 @@
-/*
-TODO:
-- delete button
-- handling '\n'
+var idNumber = 0;
 
-
-*/
 function init() {
   showVersion();
-  let updateButton = document.getElementById("updateButton");
-  updateButton.addEventListener("click", function(){ updateSettings() });
+  setupButtons();
   renderSettingsDiv()
+}
+
+function setupButtons() {
+  let saveButton = document.getElementById("saveButton");
+  saveButton.addEventListener("click", function(){ saveSettings() });
+  let addButton = document.getElementById("addButton");
+  addButton.addEventListener("click", function(){ addForm() });
+}
+
+function addForm() {
+  let formDiv = createFormDiv();
+  const isMultiLines = true;
+  getFormatInput(formDiv, isMultiLines);
+  let settingsDiv = document.getElementById("settingsDiv");
+  settingsDiv.appendChild(formDiv);
+}
+
+function deleteForm(id) {
+  let div = document.getElementById(id);
+  console.log(div);
+  div.hidden = true;
 }
 
 function showVersion() {
@@ -29,7 +44,8 @@ function renderSettingsDiv() {
       nameInput.value = format['name'];
       const isTextFormat = (format['format'] != null);
       if (isTextFormat) {
-        let formatInput = getFormatInput(formDiv, format);
+        const isMultiLines = format['format'].includes('\n');
+        let formatInput = getFormatInput(formDiv, isMultiLines);
         formatInput.value = format['format'];
       }
       settingsDiv.appendChild(formDiv);
@@ -37,24 +53,32 @@ function renderSettingsDiv() {
   });
 }
 
-function getFormatInput(formDiv, format) {
+function getFormatInput(formDiv, isMultiLines) {
   let inputs = formDiv.querySelectorAll('.lg-format');
-  console.log(inputs);
-  const isMultiLines = format['format'].includes('\n');
   let formatInput = isMultiLines ? inputs[1] : inputs[0];
   formatInput.hidden = false;
   return formatInput;
 }
 
 function createFormDiv() {
+  // clone template div
   let div = document.getElementById('formTemplate').cloneNode(true);
   div.removeAttribute("id");
   div.hidden = false;
+  // setup delete button
+  let id = `form${idNumber}`;
+  div.id = id;
+  idNumber += 1;
+  let deleteButton = div.querySelector(".lg-delete-button");
+  deleteButton.addEventListener("click", function(){ deleteForm(id) });
   return div
 }
 
-function updateSettings() {
-
+function saveSettings() {
+  console.log(defaultFormats);
+  chrome.runtime.onInstalled.addListener(() => {
+    chrome.storage.sync.set({ formats: defaultFormats });
+  });
 }
 
 init();
