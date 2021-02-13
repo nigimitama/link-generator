@@ -3,7 +3,7 @@ var idNumber = 0;
 function init() {
   showVersion();
   setupButtons();
-  renderSettingsDiv()
+  renderSettingsDiv();
 }
 
 function setupButtons() {
@@ -40,7 +40,7 @@ function renderSettingsDiv() {
     var formats = storage.formats;
     for (let format of formats) {
       let formDiv = createFormDiv();
-      let nameInput = formDiv.querySelector('.lg-name').querySelector('input');
+      let nameInput = formDiv.querySelector('.lg-name');
       nameInput.value = format['name'];
       const isTextFormat = (format['format'] != null);
       if (isTextFormat) {
@@ -74,11 +74,37 @@ function createFormDiv() {
   return div
 }
 
+
+function receiveInputs() {
+  var formats = [];
+  for (let i = 0; i <= idNumber; i++) {
+    let formDiv = document.getElementById(`form${i}`);
+    if ((formDiv != null) && (!formDiv.hidden)) {
+      let name = formDiv.querySelector('.lg-name').value;
+      let formatTags = formDiv.querySelectorAll('.lg-format');
+      var format = null;
+      for (let formatTag of formatTags) {
+        if (!formatTag.hidden) {
+          format = formatTag.value;
+          break
+        }
+      }
+      format = (format == "") ? null : format;
+      const allNull = ((name == "") && (format == null));
+      if (!allNull) {
+        formats.push({ name: name, format: format });
+      }
+    }
+  }
+  return formats;
+}
+
+
 function saveSettings() {
-  console.log(defaultFormats);
-  chrome.runtime.onInstalled.addListener(() => {
-    chrome.storage.sync.set({ formats: defaultFormats });
-  });
+  let formats = receiveInputs();
+  chrome.storage.sync.set({ formats: formats });
+  let notice = document.getElementById("saveNotice");
+  notice.hidden = false;
 }
 
 init();
