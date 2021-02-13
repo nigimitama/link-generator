@@ -1,10 +1,3 @@
-
-/*
-TODO:
-- storage.syncに設定したformatsを保存できる
-- rendered HTMLもformatsに入れる
-*/ 
-
 // get current tab when this extension is clicked
 window.onload = async function onLoad() {
   let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -19,7 +12,6 @@ function init(url, title) {
 }
 
 
-// popup handler---------------------------------------------------
 function updatePopup() {
   let currentUrl = document.getElementById("currentUrl");
   let currentTitle = document.getElementById("currentTitle");
@@ -27,10 +19,12 @@ function updatePopup() {
   renderPopup(currentUrl.value, currentTitle.value);
 }
 
+
 function renderPopup(url, title) {
   showLinks(url, title);
   showCurrent(url, title);
 }
+
 
 function resetPopup() {
   var linksDiv = document.getElementById("linksDiv");
@@ -40,7 +34,6 @@ function resetPopup() {
     linksDiv.removeChild(child);
   }
 }
-// ---------------------------------------------------------------
 
 
 function showCurrent(url, title) {
@@ -80,24 +73,13 @@ function generateLinks(linksDiv, url, title) {
   });
 }
 
-function addLinkHtml(linkDiv, url, title) {
-  let containerDiv = linkDiv.querySelector('.container');
-  linkDiv.removeChild(containerDiv);
-  // add a-tag
-  let a = document.createElement('a');
-  a.href = url;
-  a.innerText = title;
-  linkDiv.appendChild(a);
-  return linkDiv;
-}
-
 
 function addLinkText(linkDiv, url, title, format) {
   const name = format['name'];
   const link = formatLinkText(format['format'], url, title);
+  // add link text
   let linkTexts = linkDiv.querySelectorAll('.lg-link-text');
   const isMultiLines = format['format'].includes('\n');
-  console.log(isMultiLines);
   let linkText = isMultiLines ? linkTexts[1] : linkTexts[0];
   linkText.value = link;
   linkText.id = name;
@@ -106,6 +88,18 @@ function addLinkText(linkDiv, url, title, format) {
   let button = linkDiv.querySelector('.lg-copy-button');
   button.addEventListener("click", function(){ copyToClipboard(name) });
   // NOTE: CSPの関係上onclickは許可されないが、addEventListenerは許可される
+  return linkDiv;
+}
+
+
+function addLinkHtml(linkDiv, url, title) {
+  let containerDiv = linkDiv.querySelector('.container');
+  linkDiv.removeChild(containerDiv);
+  // add a-tag
+  let a = document.createElement('a');
+  a.href = url;
+  a.innerText = title;
+  linkDiv.appendChild(a);
   return linkDiv;
 }
 
