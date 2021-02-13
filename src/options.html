@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Settings - Link Generator</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="options.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <header class="bg-light p-3 border-bottom">
+      <span class="h3">Link Generator</span>
+      <span class="mx-2" id="versionInfo"></span>
+    </header>
+    <main class="p-3">
+      <div class="my-1">
+        <h4 class="h4">Settings</h4>
+        <div class="my-2" id="settingsDiv"></div>
+        <button class="btn btn-secondary btn-sm me-1" id="addButton">Add</button>
+        <button type="submit" class="btn btn-primary btn-sm me-1" id="saveButton">Save Settings</button>
+        <span id="saveNotice" hidden>saved!</span>
+      </div>
+
+      <div class="my-1">
+        <h4 class="h4 mt-4 mb-2 pt-4">Usage</h4>
+        <p>You can set the formats of links with the following variables.</p>
+        <ul>
+          <li><code>%title%</code> : The title of the active tab</li>
+          <li><code>%url%</code> : The URL of the active tab</li>
+        </ul>
+      </div>
+    </main>
+
+    <div id="formTemplate" class="border rounded p-2 my-1" hidden>
+      <div class="border-bottom pb-2" style="display: flex; justify-content: space-between;">
+        <h5 class="lg-name my-auto"></h5>
+        <button type="button" class="btn btn-sm btn-danger lg-delete-button">Delete</button>
+      </div>
+      <div class="mt-2">
+        <div class="input-group input-group-sm my-1">
+          <span class="input-group-text">name</span>
+          <input type="text" class="form-control lg-name">
+        </div>
+        <div class="input-group input-group-sm my-1">
+          <span class="input-group-text">format</span>
+          <input type="text" class="form-control lg-format" hidden>
+          <textarea class="form-control lg-format" hidden></textarea>
+        </div>
+      </div>
+    </div>
+    <script src="options.js"></script>
+  </body>
+</html>

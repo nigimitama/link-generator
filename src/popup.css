@@ -1,0 +1,25 @@
+body {
+  width: 400px;
+  margin: 10px;
+  font-family: "Open Sans",
+    "Helvetica Neue",
+    Arial,
+    "Hiragino Kaku Gothic ProN",
+    "Hiragino Sans",
+    Meiryo,
+    sans-serif;
+  font-size: 14px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  user-select: none;
+  font-weight: 600;
+}
+
+.lg-link-text {
+  width: 100%;
+}
+
+.form-control {
+  font-size: 1em;
+}

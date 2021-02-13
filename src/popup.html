@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <link rel="stylesheet" href="popup.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <div id="linksDiv"></div>
+    <hr>
+    <div class="container">
+      <div class="row">
+        <div class="col-10 px-1">
+          <details>
+            <summary>Edit</summary>
+            <div class="input-group input-group-sm m-2">
+              <label class="input-group-text">Title</label>
+              <input type="text" class="form-control" id="currentTitle">
+            </div>
+            <div class="input-group input-group-sm m-2">
+              <label class="input-group-text">URL</label>
+              <input type="text" class="form-control" id="currentUrl">
+            </div>
+            <button class="btn btn-sm btn-secondary" id="updateButton">update</button>
+          </details>
+        </div>
+        <div class="col-2 px-1">
+          <div class="text-end">
+            <a href="options.html" target="_blank">Settings</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="contentTemplate" class="border rounded p-2 my-1" hidden>
+      <h6 class="lg-header"></h6>
+      <div class="container">
+        <div class="row">
+          <div class="col-10 px-1">
+            <input type="text" class="form-control lg-link-text" hidden>
+            <textarea class="form-control lg-link-text" hidden></textarea>
+          </div>
+          <div class="col-2 px-1">
+            <button class="btn btn-sm btn-outline-secondary lg-copy-button">copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="popup.js"></script>
+  </body>
+</html>
