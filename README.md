@@ -1,6 +1,6 @@
 # Link Generator
 
-A chrome extension to get the link to an active tab.
+A chrome extension to get links to an active tab.
 
 
 

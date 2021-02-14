@@ -15,7 +15,7 @@ function init(url, title) {
 function updatePopup() {
   let currentUrl = document.getElementById("currentUrl");
   let currentTitle = document.getElementById("currentTitle");
-  resetPopup();
+  clearPopup();
   renderPopup(currentUrl.value, currentTitle.value);
 }
 
@@ -26,7 +26,7 @@ function renderPopup(url, title) {
 }
 
 
-function resetPopup() {
+function clearPopup() {
   var linksDiv = document.getElementById("linksDiv");
   var child;
   while (linksDiv.children.length > 0) {
