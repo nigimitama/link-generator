@@ -33,7 +33,7 @@ function deleteForm(id) {
 
 function showVersion() {
   // TODO: manifest.jsonからversionを取得する
-  const version = 0.1;
+  const version = "1.0.0";
   let versionInfo = document.getElementById("versionInfo");
   versionInfo.innerText = `version ${version}`
 }
