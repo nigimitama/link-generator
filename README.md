@@ -18,5 +18,5 @@ A chrome extension to get links to an active tab.
 
 - You can change the formats of the links.
 
-![image-20210214005111542](README.assets/image-20210214005111542.png)
+![image-20210214142121488](README.assets/image-20210214142121488.png)
 
