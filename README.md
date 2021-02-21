@@ -1,5 +1,7 @@
 # Link Generator
 
+[Link Generator - Chrome Web Store](https://chrome.google.com/webstore/detail/link-generator/dcepleilgmacpdjlcbgjaddnoejognkc)
+
 A chrome extension to get links to an active tab.
 
 ![image-20210214004542745](images/image-20210214004542745.png)
