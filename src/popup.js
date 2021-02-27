@@ -7,8 +7,14 @@ window.onload = async function onLoad() {
 
 function init(url, title) {
   renderPopup(url, title);
-  let updateButton = document.getElementById("updateButton");
-  updateButton.addEventListener("click", function(){ updatePopup() });
+  setupEdit();
+}
+
+function setupEdit() {
+  let currentUrl = document.getElementById("currentUrl");
+  let currentTitle = document.getElementById("currentTitle");
+  currentUrl.addEventListener("input", function(){ updatePopup() });
+  currentTitle.addEventListener("input", function(){ updatePopup() });
 }
 
 
