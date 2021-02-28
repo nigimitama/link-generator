@@ -10,6 +10,7 @@ function init(url, title) {
   createLinkDivs(url, title);
 }
 
+
 function setupEditForm(url, title) {
   let currentUrl = document.getElementById("currentUrl");
   let currentTitle = document.getElementById("currentTitle");
