@@ -6,58 +6,31 @@ window.onload = async function onLoad() {
 
 
 function init(url, title) {
-  renderPopup(url, title);
-  let updateButton = document.getElementById("updateButton");
-  updateButton.addEventListener("click", function(){ updatePopup() });
+  setupEditForm(url, title);
+  createLinkDivs(url, title);
 }
 
 
-function updatePopup() {
-  let currentUrl = document.getElementById("currentUrl");
-  let currentTitle = document.getElementById("currentTitle");
-  clearPopup();
-  renderPopup(currentUrl.value, currentTitle.value);
-}
-
-
-function renderPopup(url, title) {
-  showLinks(url, title);
-  showCurrent(url, title);
-}
-
-
-function clearPopup() {
-  var linksDiv = document.getElementById("linksDiv");
-  var child;
-  while (linksDiv.children.length > 0) {
-    child = linksDiv.children[0];
-    linksDiv.removeChild(child);
-  }
-}
-
-
-function showCurrent(url, title) {
+function setupEditForm(url, title) {
   let currentUrl = document.getElementById("currentUrl");
   let currentTitle = document.getElementById("currentTitle");
   currentUrl.value = url;
   currentTitle.value = title;
+  currentUrl.addEventListener("input", function(){ updateContents() });
+  currentTitle.addEventListener("input", function(){ updateContents() });
 }
 
 
-// show links on popup.html
-function showLinks(url, title) {
-  let linksDiv = document.getElementById("linksDiv");
-  generateLinks(linksDiv, url, title);
-}
-
-
-function generateLinks(linksDiv, url, title) {
+function createLinkDivs(url, title) {
+  var linksDiv = document.getElementById("linksDiv");
   chrome.storage.sync.get(['formats'], (storage) => {
     var formats = storage.formats;
-    for (let format of formats) {
+    for (let i = 0; i < formats.length; i++) {
+      let format = formats[i];
       let name = format['name'];
-      // create new div
-      let linkDiv = createContentDiv();
+      // add new div
+      let linkDiv = createLinkDiv();
+      linkDiv.id = `link-${i}`;
       // add header
       let header = linkDiv.querySelector('.lg-header');
       header.innerText = name;
@@ -65,10 +38,46 @@ function generateLinks(linksDiv, url, title) {
       const asText = (format['format'] != null);
       if (asText) {
         linkDiv = addLinkText(linkDiv, url, title, format);
+        linkDiv = addCopyButton(linkDiv, format);
       } else {
         linkDiv = addLinkHtml(linkDiv, url, title);
       }
       linksDiv.appendChild(linkDiv);
+    }
+  });
+}
+
+
+function createLinkDiv() {
+  let linkDiv = document.getElementById('contentTemplate').cloneNode(true);
+  linkDiv.removeAttribute("id");
+  linkDiv.classList.add('lg-link-div');
+  linkDiv.hidden = false;
+  return linkDiv
+}
+
+
+function updateContents() {
+  let currentUrl = document.getElementById("currentUrl");
+  let currentTitle = document.getElementById("currentTitle");
+  updateLinkDivs(currentUrl.value, currentTitle.value);
+}
+
+
+function updateLinkDivs(url, title) {
+  chrome.storage.sync.get(['formats'], (storage) => {
+    var formats = storage.formats;
+    for (let i = 0; i < formats.length; i++) {
+      let format = formats[i];
+      // get linkDiv
+      let linkDiv = document.getElementById(`link-${i}`);
+      // update link text
+      const asText = (format['format'] != null);
+      if (asText) {
+        addLinkText(linkDiv, url, title, format);
+      } else {
+        addLinkHtml(linkDiv, url, title);
+      }
     }
   });
 }
@@ -84,6 +93,12 @@ function addLinkText(linkDiv, url, title, format) {
   linkText.value = link;
   linkText.id = name;
   linkText.hidden = false;
+  return linkDiv;
+}
+
+
+function addCopyButton(linkDiv, format) {
+  const name = format['name'];
   // add copy button
   let button = linkDiv.querySelector('.lg-copy-button');
   button.addEventListener("click", function(){ copyToClipboard(name) });
@@ -99,6 +114,7 @@ function addLinkHtml(linkDiv, url, title) {
   let a = document.createElement('a');
   a.href = url;
   a.innerText = title;
+  a.classList.add('container');
   linkDiv.appendChild(a);
   return linkDiv;
 }
@@ -107,14 +123,6 @@ function addLinkHtml(linkDiv, url, title) {
 function formatLinkText(format, url, title) {
   const link = format.replace('%title%', title).replace('%url%', url);
   return link;
-}
-
-
-function createContentDiv() {
-  let contentDiv = document.getElementById('contentTemplate').cloneNode(true);
-  contentDiv.removeAttribute("id");
-  contentDiv.hidden = false;
-  return contentDiv
 }
 
 
