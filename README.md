@@ -4,7 +4,7 @@
 
 A chrome extension to get links to an active tab.
 
-![image-20210228191309904](images/image-20210228191309904.png)
+![image-20230308172514393](images/image-20230308172514393.png)
 
 ## Features
 
@@ -12,7 +12,7 @@ A chrome extension to get links to an active tab.
 
 ![demo](images/demo.gif)
 
-- You can change the formats of the links.
+- The format of links can be changed.
 
-![image-20210214151635079](images/image-20210214151635079.png)
+![image-20230308173407569](images/image-20230308173407569.png)
 

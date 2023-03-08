@@ -1,18 +1,17 @@
 var idNumber = 0;
 
 function init() {
-  showVersion();
   setupButtons();
   renderSettingsDiv();
 }
 
 function setupButtons() {
   let saveButton = document.getElementById("saveButton");
-  saveButton.addEventListener("click", function(){ saveSettings() });
+  saveButton.addEventListener("click", saveSettings);
   let addButton = document.getElementById("addButton");
-  addButton.addEventListener("click", function(){ addForm() });
+  addButton.addEventListener("click", addForm);
   let restoreButton = document.getElementById("restoreButton");
-  restoreButton.addEventListener("click", function(){ restoreSettings() });
+  restoreButton.addEventListener("click", restoreSettings);
 }
 
 function addForm() {
@@ -20,46 +19,41 @@ function addForm() {
   const isMultiLines = true;
   getFormatInput(formDiv, isMultiLines);
   let nameHeader = formDiv.querySelectorAll(".lg-name")[0];
-  nameHeader.innerText = "(new format)"
+  nameHeader.innerText = "(new format)";
   let settingsDiv = document.getElementById("settingsDiv");
   settingsDiv.appendChild(formDiv);
 }
 
 function deleteForm(id) {
   let div = document.getElementById(id);
-  console.log(div);
   div.hidden = true;
-}
-
-function showVersion() {
-  // TODO: manifest.jsonからversionを取得する
-  const version = "1.1.0";
-  let versionInfo = document.getElementById("versionInfo");
-  versionInfo.innerText = `version ${version}`
 }
 
 function renderSettingsDiv() {
   let settingsDiv = document.getElementById("settingsDiv");
   chrome.storage.sync.get(["formats"], (storage) => {
     var formats = storage.formats;
-    for (let format of formats) {
+    for (const format of formats) {
       let formDiv = createFormDiv();
       let nameElements = formDiv.querySelectorAll(".lg-name");
       let nameHeader = nameElements[0];
       nameHeader.innerText = format["name"];
       let nameInput = nameElements[1];
       nameInput.value = format["name"];
-      const isTextFormat = (format["format"] != null);
+      const isTextFormat = format["format"] != null;
       if (isTextFormat) {
         const isMultiLines = format["format"].includes("\n");
         let formatInput = getFormatInput(formDiv, isMultiLines);
         formatInput.value = format["format"];
+      } else {
+        const formatInput = formDiv.querySelector(".lg-format");
+        let formatDiv = formatInput.parentElement;
+        formatDiv.hidden = true;
       }
       settingsDiv.appendChild(formDiv);
     }
   });
 }
-
 
 function clearSettingDiv() {
   let settingsDiv = document.getElementById("settingsDiv");
@@ -70,9 +64,8 @@ function clearSettingDiv() {
   }
 }
 
-
 function getFormatInput(formDiv, isMultiLines) {
-  let inputs = formDiv.querySelectorAll(".lg-format");
+  const inputs = formDiv.querySelectorAll(".lg-format");
   let formatInput = isMultiLines ? inputs[1] : inputs[0];
   formatInput.hidden = false;
   return formatInput;
@@ -84,31 +77,32 @@ function createFormDiv() {
   div.removeAttribute("id");
   div.hidden = false;
   // setup delete button
-  let id = `form${idNumber}`;
+  const id = `form${idNumber}`;
   div.id = id;
   idNumber += 1;
   let deleteButton = div.querySelector(".lg-delete-button");
-  deleteButton.addEventListener("click", function(){ deleteForm(id) });
-  return div
+  deleteButton.addEventListener("click", () => {
+    deleteForm(id);
+  });
+  return div;
 }
-
 
 function receiveInputs() {
   var formats = [];
   for (let i = 0; i <= idNumber; i++) {
     let formDiv = document.getElementById(`form${i}`);
-    if ((formDiv != null) && (!formDiv.hidden)) {
+    if (formDiv != null && !formDiv.hidden) {
       let name = formDiv.querySelectorAll(".lg-name")[1].value;
       let formatTags = formDiv.querySelectorAll(".lg-format");
       var format = null;
       for (let formatTag of formatTags) {
         if (!formatTag.hidden) {
           format = formatTag.value;
-          break
+          break;
         }
       }
-      format = (format == "") ? null : format;
-      const allNull = ((name == "") && (format == null));
+      format = format == "" ? null : format;
+      const allNull = name == "" && format == null;
       if (!allNull) {
         formats.push({ name: name, format: format });
       }
@@ -117,10 +111,8 @@ function receiveInputs() {
   return formats;
 }
 
-
 function saveSettings() {
-  let formats = receiveInputs();
-  console.log(formats);
+  const formats = receiveInputs();
   chrome.storage.sync.set({ formats: formats });
   let notice = document.getElementById("saveNotice");
   notice.hidden = false;
@@ -128,13 +120,11 @@ function saveSettings() {
   renderSettingsDiv();
 }
 
-
 function restoreSettings() {
-  // TODO: avoid repeat
   const defaultFormats = [
     { name: "HTML (rendered)", format: null },
     { name: "Markdown", format: "[%title%](%url%)" },
-    { name: "Plain Text", format: "%title%\n%url%" }
+    { name: "Plain Text", format: "%title%\n%url%" },
   ];
   chrome.storage.sync.set({ formats: defaultFormats });
   clearSettingDiv();
@@ -142,6 +132,5 @@ function restoreSettings() {
   let notice = document.getElementById("restoreNotice");
   notice.hidden = false;
 }
-
 
 init();
