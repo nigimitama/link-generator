@@ -3,6 +3,7 @@ var idNumber = 0;
 function init() {
   setupButtons();
   renderSettingsDiv();
+  i18n();
 }
 
 function setupButtons() {
@@ -18,7 +19,7 @@ function addForm() {
   let formDiv = createFormDiv();
   const isMultiLines = true;
   getFormatInput(formDiv, isMultiLines);
-  let nameHeader = formDiv.querySelectorAll(".lg-name")[0];
+  let nameHeader = formDiv.querySelector("h5.lg-name");
   nameHeader.innerText = "(new format)";
   let settingsDiv = document.getElementById("settingsDiv");
   settingsDiv.appendChild(formDiv);
@@ -35,10 +36,9 @@ function renderSettingsDiv() {
     var formats = storage.formats;
     for (const format of formats) {
       let formDiv = createFormDiv();
-      let nameElements = formDiv.querySelectorAll(".lg-name");
-      let nameHeader = nameElements[0];
+      let nameHeader = formDiv.querySelector("h5.lg-name");
       nameHeader.innerText = format["name"];
-      let nameInput = nameElements[1];
+      let nameInput = formDiv.querySelector("input.lg-name");
       nameInput.value = format["name"];
       const isTextFormat = format["format"] != null;
       if (isTextFormat) {
@@ -46,7 +46,7 @@ function renderSettingsDiv() {
         let formatInput = getFormatInput(formDiv, isMultiLines);
         formatInput.value = format["format"];
       } else {
-        const formatInput = formDiv.querySelector(".lg-format");
+        const formatInput = formDiv.querySelector("input.lg-format, textarea.lg-format");
         let formatDiv = formatInput.parentElement;
         formatDiv.hidden = true;
       }
@@ -65,8 +65,12 @@ function clearSettingDiv() {
 }
 
 function getFormatInput(formDiv, isMultiLines) {
-  const inputs = formDiv.querySelectorAll(".lg-format");
-  let formatInput = isMultiLines ? inputs[1] : inputs[0];
+  let formatInput;
+  if (isMultiLines) {
+    formatInput = formDiv.querySelector("textarea.lg-format");
+  } else {
+    formatInput = formDiv.querySelector("input.lg-format");
+  }
   formatInput.hidden = false;
   return formatInput;
 }
@@ -92,8 +96,8 @@ function receiveInputs() {
   for (let i = 0; i <= idNumber; i++) {
     let formDiv = document.getElementById(`form${i}`);
     if (formDiv != null && !formDiv.hidden) {
-      let name = formDiv.querySelectorAll(".lg-name")[1].value;
-      let formatTags = formDiv.querySelectorAll(".lg-format");
+      let name = formDiv.querySelector("input.lg-name").value;
+      let formatTags = formDiv.querySelectorAll("input.lg-format, textarea.lg-format");
       var format = null;
       for (let formatTag of formatTags) {
         if (!formatTag.hidden) {
@@ -131,6 +135,36 @@ function restoreSettings() {
   renderSettingsDiv();
   let notice = document.getElementById("restoreNotice");
   notice.hidden = false;
+}
+
+function i18n() {
+  // get elements by class
+  const selector_keys = [[".lg-delete-button", "deleteButton"]];
+  // document.querySelectorAll(".lg-delete-button")
+  for (const [selector, key] of selector_keys) {
+    let elements = document.querySelectorAll(selector);
+    for (let element of elements) {
+      element.innerText = chrome.i18n.getMessage(key);
+    }
+  }
+  // get static elements by id
+  const ids = [
+    "usageTitle",
+    "usageDesc1",
+    "usageDesc2",
+    "varDescTitle",
+    "varDescUrl",
+    "addButton",
+    "saveButton",
+    "saveNotice",
+    "restoreButton",
+    "restoreNotice",
+  ];
+
+  for (const id of ids) {
+    let element = document.getElementById(id);
+    element.innerText = chrome.i18n.getMessage(id);
+  }
 }
 
 init();

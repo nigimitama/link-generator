@@ -1,6 +1,7 @@
 {
   "name": "Link Generator",
   "description": "Generate links of a current tab.",
+  "default_locale": "en",
   "version": "1.2.0",
   "manifest_version": 3,
   "background": {
