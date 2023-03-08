@@ -38,11 +38,11 @@ function createLinkDivs(url, title) {
       // add link text
       const isHtml = format["format"] == null;
       if (isHtml) {
-        linkDiv = addLinkHtml(linkDiv, url, title);
-        linkDiv = addCopyButton(linkDiv, format);
+        linkDiv = addLinkHtml(linkDiv, url, title, format);
+        linkDiv = addCopyButton(linkDiv, format, isHtml);
       } else {
         linkDiv = addLinkText(linkDiv, url, title, format);
-        linkDiv = addCopyButton(linkDiv, format);
+        linkDiv = addCopyButton(linkDiv, format, isHtml);
       }
       linksDiv.appendChild(linkDiv);
     }
@@ -73,7 +73,7 @@ function updateLinkDivs(url, title) {
       // update link text
       const isHtml = format["format"] == null;
       if (isHtml) {
-        addLinkHtml(linkDiv, url, title);
+        addLinkHtml(linkDiv, url, title, format);
       } else {
         addLinkText(linkDiv, url, title, format);
       }
@@ -94,26 +94,26 @@ function addLinkText(linkDiv, url, title, format) {
   return linkDiv;
 }
 
-function addCopyButton(linkDiv, format) {
+function addCopyButton(linkDiv, format, isHtml) {
   const name = format["name"];
   // add copy button
   let button = linkDiv.querySelector(".lg-copy-button");
-  button.addEventListener("click", function (e) {
-    copyToClipboard(name, e.target);
+  button.addEventListener("click", (e) => {
+    copyToClipboard(name, e.target, isHtml);
   });
   // NOTE: CSPの関係上onclickは許可されないが、addEventListenerは許可される
   return linkDiv;
 }
 
-function addLinkHtml(linkDiv, url, title) {
-  let containerDiv = linkDiv.querySelector(".container");
-  linkDiv.removeChild(containerDiv);
-  // add a-tag
+function addLinkHtml(linkDiv, url, title, format) {
+  // create a-tag
   let a = document.createElement("a");
   a.href = url;
   a.innerText = title;
-  a.classList.add("container");
-  linkDiv.appendChild(a);
+  a.id = format["name"];
+  // insert
+  let linkOutputArea = linkDiv.querySelector(".linkOutputArea");
+  linkOutputArea.replaceChildren(a);
   return linkDiv;
 }
 
@@ -122,10 +122,25 @@ function formatLinkText(format, url, title) {
   return link;
 }
 
-function copyToClipboard(name, button) {
-  let target = document.getElementById(name);
-  const plainBlob = new Blob([target.value], { type: "text/plain" });
-  const data = [new ClipboardItem({ "text/plain": plainBlob })];
+
+function genClipboardItems(target, isHtml) {
+  if (isHtml) {
+    console.log(target)
+    const htmlBlob = new Blob([target.outerHTML], { type: "text/html" });
+    const plainBlob = new Blob([target.innerText], { type: "text/plain" });
+    const data = [new ClipboardItem({ "text/html": htmlBlob, "text/plain": plainBlob })];
+    return data;
+  } else {
+    const plainBlob = new Blob([target.value], { type: "text/plain" });
+    const data = [new ClipboardItem({ "text/plain": plainBlob })];
+    return data;
+  }
+}
+
+
+function copyToClipboard(name, button, isHtml) {
+  const target = document.getElementById(name);
+  const data = genClipboardItems(target, isHtml);
 
   const btn_default = "btn-outline-secondary";
   const btn_success = "btn-outline-success";
