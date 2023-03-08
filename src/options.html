@@ -30,13 +30,13 @@
       </div>
 
       <div class="my-1">
-        <h4 class="h4 mt-4 mb-2 pt-4">Usage</h4>
-        <p>You can set the formats of links with the following variables.</p>
+        <h4 class="h4 mt-4 mb-2 pt-4" id="usageTitle">Usage</h4>
+        <p id="usageDesc1"></p>
         <ul>
-          <li><code>%title%</code> : The title of the active tab</li>
-          <li><code>%url%</code> : The URL of the active tab</li>
+          <li><code>%title%</code> : <span id="varDescTitle"></span></li>
+          <li><code>%url%</code> : <span id="varDescUrl"></span></li>
         </ul>
-        <p>If you save settings when the 'format' field is empty, the setting will be saved as rendered HTML.</p>
+        <p id="usageDesc2"></p>
       </div>
     </main>
 
@@ -47,11 +47,11 @@
       </div>
       <div class="mt-2">
         <div class="input-group input-group-sm my-1">
-          <span class="input-group-text">name</span>
+          <span class="input-group-text lg-name">name</span>
           <input type="text" class="form-control lg-name">
         </div>
         <div class="input-group input-group-sm my-1">
-          <span class="input-group-text">format</span>
+          <span class="input-group-text lg-format">format</span>
           <input type="text" class="form-control lg-format" hidden>
           <textarea class="form-control lg-format" hidden></textarea>
         </div>
