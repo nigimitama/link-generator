@@ -128,6 +128,18 @@ function formatLinkText(format, url, title) {
 
 function copyToClipboard(name) {
   let target = document.getElementById(name);
-  target.select();
-  document.execCommand("copy");
+  const plainBlob = new Blob([target.value], { type: "text/plain" });
+  const data = [new ClipboardItem({ "text/plain": plainBlob })];
+
+  navigator.clipboard.write(data).then(
+    () => {
+      /* success */
+    },
+    (msg) => {
+      /* fail */
+      console.log(`fail: ${msg}`);
+      target.select();
+      document.execCommand("copy");
+    }
+  );
 }
