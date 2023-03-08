@@ -7,11 +7,11 @@ function init() {
 
 function setupButtons() {
   let saveButton = document.getElementById("saveButton");
-  saveButton.addEventListener("click", function(){ saveSettings() });
+  saveButton.addEventListener("click", saveSettings);
   let addButton = document.getElementById("addButton");
-  addButton.addEventListener("click", function(){ addForm() });
+  addButton.addEventListener("click", addForm);
   let restoreButton = document.getElementById("restoreButton");
-  restoreButton.addEventListener("click", function(){ restoreSettings() });
+  restoreButton.addEventListener("click", restoreSettings);
 }
 
 function addForm() {
@@ -19,14 +19,13 @@ function addForm() {
   const isMultiLines = true;
   getFormatInput(formDiv, isMultiLines);
   let nameHeader = formDiv.querySelectorAll(".lg-name")[0];
-  nameHeader.innerText = "(new format)"
+  nameHeader.innerText = "(new format)";
   let settingsDiv = document.getElementById("settingsDiv");
   settingsDiv.appendChild(formDiv);
 }
 
 function deleteForm(id) {
   let div = document.getElementById(id);
-  console.log(div);
   div.hidden = true;
 }
 
@@ -41,7 +40,7 @@ function renderSettingsDiv() {
       nameHeader.innerText = format["name"];
       let nameInput = nameElements[1];
       nameInput.value = format["name"];
-      const isTextFormat = (format["format"] != null);
+      const isTextFormat = format["format"] != null;
       if (isTextFormat) {
         const isMultiLines = format["format"].includes("\n");
         let formatInput = getFormatInput(formDiv, isMultiLines);
@@ -52,7 +51,6 @@ function renderSettingsDiv() {
   });
 }
 
-
 function clearSettingDiv() {
   let settingsDiv = document.getElementById("settingsDiv");
   var child;
@@ -61,7 +59,6 @@ function clearSettingDiv() {
     settingsDiv.removeChild(child);
   }
 }
-
 
 function getFormatInput(formDiv, isMultiLines) {
   let inputs = formDiv.querySelectorAll(".lg-format");
@@ -80,27 +77,28 @@ function createFormDiv() {
   div.id = id;
   idNumber += 1;
   let deleteButton = div.querySelector(".lg-delete-button");
-  deleteButton.addEventListener("click", function(){ deleteForm(id) });
-  return div
+  deleteButton.addEventListener("click", () => {
+    deleteForm(id);
+  });
+  return div;
 }
-
 
 function receiveInputs() {
   var formats = [];
   for (let i = 0; i <= idNumber; i++) {
     let formDiv = document.getElementById(`form${i}`);
-    if ((formDiv != null) && (!formDiv.hidden)) {
+    if (formDiv != null && !formDiv.hidden) {
       let name = formDiv.querySelectorAll(".lg-name")[1].value;
       let formatTags = formDiv.querySelectorAll(".lg-format");
       var format = null;
       for (let formatTag of formatTags) {
         if (!formatTag.hidden) {
           format = formatTag.value;
-          break
+          break;
         }
       }
-      format = (format == "") ? null : format;
-      const allNull = ((name == "") && (format == null));
+      format = format == "" ? null : format;
+      const allNull = name == "" && format == null;
       if (!allNull) {
         formats.push({ name: name, format: format });
       }
@@ -108,7 +106,6 @@ function receiveInputs() {
   }
   return formats;
 }
-
 
 function saveSettings() {
   let formats = receiveInputs();
@@ -120,13 +117,12 @@ function saveSettings() {
   renderSettingsDiv();
 }
 
-
 function restoreSettings() {
   // TODO: avoid repeat
   const defaultFormats = [
     { name: "HTML (rendered)", format: null },
     { name: "Markdown", format: "[%title%](%url%)" },
-    { name: "Plain Text", format: "%title%\n%url%" }
+    { name: "Plain Text", format: "%title%\n%url%" },
   ];
   chrome.storage.sync.set({ formats: defaultFormats });
   clearSettingDiv();
@@ -134,6 +130,5 @@ function restoreSettings() {
   let notice = document.getElementById("restoreNotice");
   notice.hidden = false;
 }
-
 
 init();
