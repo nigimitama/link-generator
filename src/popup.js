@@ -155,10 +155,7 @@ function copyToClipboard(name, button, isHtml) {
       button.classList.add(btn_failure);
       button.innerText = "failed";
 
-      console.log(`copy failed. message: ${msg}`);
-
-      target.select();
-      document.execCommand("copy");
+      console.log(`copy failed. (details: ${msg})`);
     }
   );
 }
