@@ -140,7 +140,6 @@ function restoreSettings() {
 function i18n() {
   // get elements by class
   const selector_keys = [[".lg-delete-button", "deleteButton"]];
-  // document.querySelectorAll(".lg-delete-button")
   for (const [selector, key] of selector_keys) {
     let elements = document.querySelectorAll(selector);
     for (let element of elements) {
