@@ -1,7 +1,6 @@
 var idNumber = 0;
 
 function init() {
-  showVersion();
   setupButtons();
   renderSettingsDiv();
 }
@@ -29,13 +28,6 @@ function deleteForm(id) {
   let div = document.getElementById(id);
   console.log(div);
   div.hidden = true;
-}
-
-function showVersion() {
-  // TODO: manifest.jsonからversionを取得する
-  const version = "1.1.0";
-  let versionInfo = document.getElementById("versionInfo");
-  versionInfo.innerText = `version ${version}`
 }
 
 function renderSettingsDiv() {
