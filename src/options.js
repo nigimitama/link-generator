@@ -45,6 +45,10 @@ function renderSettingsDiv() {
         const isMultiLines = format["format"].includes("\n");
         let formatInput = getFormatInput(formDiv, isMultiLines);
         formatInput.value = format["format"];
+      } else {
+        const formatInput = formDiv.querySelector(".lg-format");
+        let formatDiv = formatInput.parentElement;
+        formatDiv.hidden = true;
       }
       settingsDiv.appendChild(formDiv);
     }
