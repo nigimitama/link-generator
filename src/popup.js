@@ -14,12 +14,8 @@ function setupEditForm(url, title) {
   let currentTitle = document.getElementById("currentTitle");
   currentUrl.value = url;
   currentTitle.value = title;
-  currentUrl.addEventListener("input", function () {
-    updateContents();
-  });
-  currentTitle.addEventListener("input", function () {
-    updateContents();
-  });
+  currentUrl.addEventListener("input", updateContents);
+  currentTitle.addEventListener("input", updateContents);
 }
 
 function createLinkDivs(url, title) {
@@ -122,10 +118,9 @@ function formatLinkText(format, url, title) {
   return link;
 }
 
-
 function genClipboardItems(target, isHtml) {
   if (isHtml) {
-    console.log(target)
+    console.log(target);
     const htmlBlob = new Blob([target.outerHTML], { type: "text/html" });
     const plainBlob = new Blob([target.innerText], { type: "text/plain" });
     const data = [new ClipboardItem({ "text/html": htmlBlob, "text/plain": plainBlob })];
@@ -136,7 +131,6 @@ function genClipboardItems(target, isHtml) {
     return data;
   }
 }
-
 
 function copyToClipboard(name, button, isHtml) {
   const target = document.getElementById(name);
