@@ -36,12 +36,13 @@ function createLinkDivs(url, title) {
       let header = linkDiv.querySelector(".lg-header");
       header.innerText = name;
       // add link text
-      const asText = format["format"] != null;
-      if (asText) {
-        linkDiv = addLinkText(linkDiv, url, title, format);
+      const isHtml = format["format"] == null;
+      if (isHtml) {
+        linkDiv = addLinkHtml(linkDiv, url, title);
         linkDiv = addCopyButton(linkDiv, format);
       } else {
-        linkDiv = addLinkHtml(linkDiv, url, title);
+        linkDiv = addLinkText(linkDiv, url, title, format);
+        linkDiv = addCopyButton(linkDiv, format);
       }
       linksDiv.appendChild(linkDiv);
     }
@@ -70,11 +71,11 @@ function updateLinkDivs(url, title) {
       // get linkDiv
       let linkDiv = document.getElementById(`link-${i}`);
       // update link text
-      const asText = format["format"] != null;
-      if (asText) {
-        addLinkText(linkDiv, url, title, format);
-      } else {
+      const isHtml = format["format"] == null;
+      if (isHtml) {
         addLinkHtml(linkDiv, url, title);
+      } else {
+        addLinkText(linkDiv, url, title, format);
       }
     }
   });
