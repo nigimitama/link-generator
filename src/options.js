@@ -33,7 +33,7 @@ function renderSettingsDiv() {
   let settingsDiv = document.getElementById("settingsDiv");
   chrome.storage.sync.get(["formats"], (storage) => {
     var formats = storage.formats;
-    for (let format of formats) {
+    for (const format of formats) {
       let formDiv = createFormDiv();
       let nameElements = formDiv.querySelectorAll(".lg-name");
       let nameHeader = nameElements[0];
@@ -61,7 +61,7 @@ function clearSettingDiv() {
 }
 
 function getFormatInput(formDiv, isMultiLines) {
-  let inputs = formDiv.querySelectorAll(".lg-format");
+  const inputs = formDiv.querySelectorAll(".lg-format");
   let formatInput = isMultiLines ? inputs[1] : inputs[0];
   formatInput.hidden = false;
   return formatInput;
@@ -73,7 +73,7 @@ function createFormDiv() {
   div.removeAttribute("id");
   div.hidden = false;
   // setup delete button
-  let id = `form${idNumber}`;
+  const id = `form${idNumber}`;
   div.id = id;
   idNumber += 1;
   let deleteButton = div.querySelector(".lg-delete-button");
@@ -108,8 +108,7 @@ function receiveInputs() {
 }
 
 function saveSettings() {
-  let formats = receiveInputs();
-  console.log(formats);
+  const formats = receiveInputs();
   chrome.storage.sync.set({ formats: formats });
   let notice = document.getElementById("saveNotice");
   notice.hidden = false;
@@ -118,7 +117,6 @@ function saveSettings() {
 }
 
 function restoreSettings() {
-  // TODO: avoid repeat
   const defaultFormats = [
     { name: "HTML (rendered)", format: null },
     { name: "Markdown", format: "[%title%](%url%)" },
