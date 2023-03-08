@@ -101,7 +101,7 @@ function addCopyButton(linkDiv, format) {
   const name = format['name'];
   // add copy button
   let button = linkDiv.querySelector('.lg-copy-button');
-  button.addEventListener("click", function(){ copyToClipboard(name) });
+  button.addEventListener("click", function(e){ copyToClipboard(name, e.target) });
   // NOTE: CSPの関係上onclickは許可されないが、addEventListenerは許可される
   return linkDiv;
 }
@@ -126,18 +126,32 @@ function formatLinkText(format, url, title) {
 }
 
 
-function copyToClipboard(name) {
+function copyToClipboard(name, button) {
   let target = document.getElementById(name);
   const plainBlob = new Blob([target.value], { type: "text/plain" });
   const data = [new ClipboardItem({ "text/plain": plainBlob })];
 
+  const btn_default = 'btn-outline-secondary';
+  const btn_success = 'btn-outline-success';
+  const btn_failure = 'btn-outline-danger';
+
   navigator.clipboard.write(data).then(
     () => {
       /* success */
+      button.classList.remove(btn_default)
+      button.classList.remove(btn_failure)
+      button.classList.add(btn_success)
+      button.innerText = 'copied'
     },
     (msg) => {
-      /* fail */
-      console.log(`fail: ${msg}`);
+      /* failure */
+      button.classList.remove(btn_default)
+      button.classList.remove(btn_success)
+      button.classList.add(btn_failure)
+      button.innerText = 'failed'
+
+      console.log(`copy failed. message: ${msg}`);
+
       target.select();
       document.execCommand("copy");
     }
