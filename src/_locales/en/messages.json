@@ -1,4 +1,8 @@
 {
+  "description": {
+    "message": "This extension generates links to the current page.",
+    "description": "for the description field in manifest.json"
+  },
   "settingsTitle": {
     "message": "Settings"
   },

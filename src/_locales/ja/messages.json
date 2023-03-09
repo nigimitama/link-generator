@@ -1,4 +1,8 @@
 {
+  "description": {
+    "message": "表示中のページへのリンクをお好みの形式で生成します。",
+    "description": "manifest.jsonのdescription用"
+  },
   "settingsTitle": {
     "message": "設定"
   },
