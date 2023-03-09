@@ -1,0 +1,48 @@
+{
+  "description": {
+    "message": "This extension generates links to the current page.",
+    "description": "for the description field in manifest.json"
+  },
+  "settingsTitle": {
+    "message": "Settings"
+  },
+  "usageTitle": {
+    "message": "Usage"
+  },
+  "usageDesc1": {
+    "message": "In the 'format' field, you can set format of links with following variables."
+  },
+  "varDescTitle": {
+    "message": "The title of the active tab"
+  },
+  "varDescUrl": {
+    "message": "The URL of the active tab"
+  },
+  "usageDesc2": {
+    "message": "If you save settings when the 'format' field is empty, the setting will be saved as rendered HTML instead of plain text."
+  },
+  "deleteButton": {
+    "message": "Delete"
+  },
+  "addButton": {
+    "message": "Add"
+  },
+  "saveButton": {
+    "message": "Save Settings"
+  },
+  "saveNotice": {
+    "message": "saved!"
+  },
+  "restoreButton": {
+    "message": "Restore settings to default"
+  },
+  "restoreNotice": {
+    "message": "restored!"
+  },
+  "nameLabel": {
+    "message": "name"
+  },
+  "formatLabel": {
+    "message": "format"
+  }
+}

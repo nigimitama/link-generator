@@ -1,9 +1,3 @@
-// get current tab when this extension is clicked
-window.onload = async function onLoad() {
-  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
-  init(tab.url, tab.title);
-};
-
 function init(url, title) {
   setupEditForm(url, title);
   createLinkDivs(url, title);
@@ -159,3 +153,9 @@ function copyToClipboard(name, button, isHtml) {
     }
   );
 }
+
+// get current tab when this extension is clicked
+window.onload = async function onLoad() {
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  init(tab.url, tab.title);
+};

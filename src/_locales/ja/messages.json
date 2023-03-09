@@ -1,0 +1,48 @@
+{
+  "description": {
+    "message": "表示中のページへのリンクをお好みの形式で生成します。",
+    "description": "manifest.jsonのdescription用"
+  },
+  "settingsTitle": {
+    "message": "設定"
+  },
+  "usageTitle": {
+    "message": "使い方"
+  },
+  "usageDesc1": {
+    "message": "「フォーマット」の欄では次の変数を使ってリンクの書式を設定することができます。"
+  },
+  "varDescTitle": {
+    "message": "表示中のタブのタイトル"
+  },
+  "varDescUrl": {
+    "message": "表示中のタブのURL"
+  },
+  "usageDesc2": {
+    "message": "「フォーマット」の欄が空のまま保存した場合、プレーンテキストではなくレンダリングされたHTMLのリンクが表示されます。"
+  },
+  "deleteButton": {
+    "message": "削除"
+  },
+  "addButton": {
+    "message": "追加"
+  },
+  "saveButton": {
+    "message": "設定を保存する"
+  },
+  "saveNotice": {
+    "message": "保存しました"
+  },
+  "restoreButton": {
+    "message": "設定をデフォルトに戻す"
+  },
+  "restoreNotice": {
+    "message": "設定をリセットしました"
+  },
+  "nameLabel": {
+    "message": "表示名"
+  },
+  "formatLabel": {
+    "message": "フォーマット"
+  }
+}
