@@ -139,7 +139,11 @@ function restoreSettings() {
 
 function i18n() {
   // get elements by class
-  const selector_keys = [[".lg-delete-button", "deleteButton"]];
+  const selector_keys = [
+    [".lg-delete-button", "deleteButton"],
+    ["span.lg-name", "nameLabel"],
+    ["span.lg-format", "formatLabel"],
+  ];
   for (const [selector, key] of selector_keys) {
     let elements = document.querySelectorAll(selector);
     for (let element of elements) {
@@ -148,6 +152,7 @@ function i18n() {
   }
   // get static elements by id
   const ids = [
+    "settingsTitle",
     "usageTitle",
     "usageDesc1",
     "usageDesc2",

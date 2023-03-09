@@ -1,9 +1,12 @@
 {
+  "settingsTitle": {
+    "message": "Settings"
+  },
   "usageTitle": {
     "message": "Usage"
   },
   "usageDesc1": {
-    "message": "In the 'format' field, you can set format of links with the following variables."
+    "message": "In the 'format' field, you can set format of links with following variables."
   },
   "varDescTitle": {
     "message": "The title of the active tab"
@@ -31,5 +34,11 @@
   },
   "restoreNotice": {
     "message": "restored!"
+  },
+  "nameLabel": {
+    "message": "name"
+  },
+  "formatLabel": {
+    "message": "format"
   }
 }
