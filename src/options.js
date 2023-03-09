@@ -171,4 +171,6 @@ function i18n() {
   }
 }
 
-init();
+document.addEventListener('DOMContentLoaded', () => {
+  init();
+});
