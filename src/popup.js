@@ -116,7 +116,7 @@ function genClipboardItems(target, isHtml) {
   if (isHtml) {
     console.log(target);
     const htmlBlob = new Blob([target.outerHTML], { type: "text/html" });
-    const plainBlob = new Blob([target.innerText], { type: "text/plain" });
+    const plainBlob = new Blob([target.href], { type: "text/plain" });
     const data = [new ClipboardItem({ "text/html": htmlBlob, "text/plain": plainBlob })];
     return data;
   } else {
